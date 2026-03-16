@@ -228,10 +228,9 @@
     initPlayer();
 
     /* =================================================
-       SCHEDULER (Dooray API via corsproxy.io)
+       SCHEDULER (Dooray API via local server proxy)
        ================================================= */
-    // ★ Worker 배포 후 URL을 여기에 입력
-    const PROXY = 'https://dooray-proxy.<계정>.workers.dev';
+    const PROXY = '';  // 로컬 서버가 /api/* 프록시 처리
     const CFG = { START: 8, END: 20 };
     const KST = 'Asia/Seoul';
 

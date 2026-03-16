@@ -1,30 +1,26 @@
 #!/bin/bash
 # KETI Kiosk Dashboard - Mac Local Server
 # Usage: bash run.sh [port]
-#   port: 서버 포트 (기본 8080)
 
 PORT=${1:-8080}
 DIR="$(cd "$(dirname "$0")" && pwd)"
-
-echo "============================================"
-echo "  KETI Kiosk Dashboard"
-echo "  http://localhost:${PORT}"
-echo "============================================"
-echo ""
-echo "  video/ 폴더에 mp4 파일을 넣고"
-echo "  video/video_list.js 에 파일명을 추가하세요"
-echo ""
-echo "  Ctrl+C 로 종료"
-echo "============================================"
-
 cd "$DIR"
 
-# Python 3 내장 HTTP 서버 사용
-if command -v python3 &>/dev/null; then
-    python3 -m http.server "$PORT"
-elif command -v python &>/dev/null; then
-    python -m http.server "$PORT"
+# video 폴더 확인
+mkdir -p video
+
+# Node.js 확인
+if command -v node &>/dev/null; then
+    NODE_VER=$(node -v)
+    echo "Node.js ${NODE_VER} 사용"
+    PORT=$PORT node server.js
 else
-    echo "Error: python3 이 설치되어 있지 않습니다."
+    echo ""
+    echo "  ❌ Node.js 가 설치되어 있지 않습니다."
+    echo ""
+    echo "  설치 방법:"
+    echo "    brew install node"
+    echo "    또는 https://nodejs.org 에서 LTS 다운로드"
+    echo ""
     exit 1
 fi
