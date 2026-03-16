@@ -15,21 +15,14 @@
 
 ## 요구사항
 
-- **Node.js** (v10 이상, 구형 맥 OK)
-- 외부 패키지 없음 (`npm install` 불필요)
+**둘 중 하나만 있으면 됨** (외부 패키지 설치 불필요):
 
-### Node.js 설치 (맥)
+| 방식 | 최소 버전 | 비고 |
+|------|----------|------|
+| **Python 3** | 3.6+ | macOS 기본 내장, 구형 맥 OK |
+| **Node.js** | v10+ | 설치 필요 |
 
-```bash
-# Homebrew 있으면
-brew install node
-
-# 없으면 공식 사이트에서 LTS 다운로드
-# https://nodejs.org
-# → macOS Installer (.pkg) 다운 후 더블클릭
-```
-
-> Homebrew 없는 구형 맥이면 https://nodejs.org/en/download 에서 `.pkg` 파일 받아서 설치하면 됩니다.
+`run.sh`가 Node → Python 순서로 자동 선택합니다.
 
 ## 빠른 시작
 
@@ -47,13 +40,22 @@ bash run.sh
 
 브라우저에서 **http://localhost:8080** 열기.
 
+> **구형 맥 (Python3 없을 때):**
+> ```bash
+> # Xcode CLT 설치하면 Python3 딸려옴
+> xcode-select --install
+>
+> # 또는 직접 python.org에서 다운로드
+> # https://www.python.org/downloads/macos/
+> ```
+
 ## 사용법
 
 ### 비디오
 
 `video/` 폴더에 mp4 파일을 넣으면 **자동으로 인식**됩니다.
 
-- `video_list.js` 수동 편집 불필요 (서버가 폴더를 스캔)
+- 수동 편집 불필요 (서버가 폴더를 스캔)
 - 파일명 알파벳순 정렬 → 순서 지정하려면 번호 붙이기:
   ```
   video/
@@ -78,15 +80,23 @@ bash run.sh 3000
 # → http://localhost:3000
 ```
 
-### 전체 화면 키오스크 모드 (맥)
-
-Safari 또는 Chrome에서:
+### 서버 직접 실행 (run.sh 안 쓸 때)
 
 ```bash
-# Chrome 키오스크 모드로 바로 열기
+# Python
+python3 server.py
+
+# Node
+node server.js
+```
+
+### 전체 화면 키오스크 모드 (맥)
+
+```bash
+# Chrome 키오스크 모드
 open -a "Google Chrome" --args --kiosk http://localhost:8080
 
-# Safari: Cmd+Shift+F 로 전체화면
+# Safari: Cmd+Shift+F
 ```
 
 ### 맥 부팅 시 자동 실행 (선택)
@@ -94,20 +104,22 @@ open -a "Google Chrome" --args --kiosk http://localhost:8080
 1. `시스템 설정` → `일반` → `로그인 항목`
 2. `+` 클릭 → `run.sh` 선택
 
-또는 LaunchAgent 사용:
+또는 LaunchAgent:
 
 ```bash
+# FULL_PATH를 실제 경로로 변경
 cat > ~/Library/LaunchAgents/com.keti.kiosk.plist << 'EOF'
 <?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN"
+  "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
     <key>Label</key>
     <string>com.keti.kiosk</string>
     <key>ProgramArguments</key>
     <array>
-        <string>/usr/local/bin/node</string>
-        <string>FULL_PATH_HERE/server.js</string>
+        <string>/usr/bin/python3</string>
+        <string>FULL_PATH/server.py</string>
     </array>
     <key>RunAtLoad</key>
     <true/>
@@ -118,17 +130,15 @@ cat > ~/Library/LaunchAgents/com.keti.kiosk.plist << 'EOF'
 EOF
 ```
 
-`FULL_PATH_HERE`를 실제 경로로 바꾸세요.
-
 ## 구조
 
 ```
 dooray202603mac/
 ├── index.html      키오스크 화면 (비디오 + 회의실)
-├── server.js       Node.js 서버 (정적파일 + API 프록시)
-├── run.sh          실행 스크립트
-├── video/          영상 파일 (mp4/webm/mov)
-│   └── .gitkeep
+├── server.py       Python 서버 (구형 맥 호환)
+├── server.js       Node.js 서버 (대안)
+├── run.sh          실행 스크립트 (Node/Python 자동 선택)
+├── video/          영상 파일 (mp4/webm/mov, git 제외)
 └── worker/         Cloudflare Worker (선택, 별도 배포용)
 ```
 
@@ -136,8 +146,9 @@ dooray202603mac/
 
 | 증상 | 해결 |
 |------|------|
-| `node: command not found` | Node.js 설치 필요 (위 설치 방법 참고) |
+| Node 라이브러리 에러 | 구형 맥 호환 문제 → `python3 server.py`로 실행 |
+| `python3: command not found` | `xcode-select --install` 또는 python.org에서 설치 |
 | 비디오 안 나옴 | `video/` 폴더에 mp4 파일 있는지 확인 |
 | 회의실 데이터 안 나옴 | 인터넷 연결 확인, Dooray 토큰 유효한지 확인 |
-| 영상 끊김/버벅임 | 구형 맥이면 해상도 낮은 영상 사용 (720p 권장) |
+| 영상 끊김/버벅임 | 구형 맥이면 720p 이하 영상 권장 |
 | 포트 충돌 | `bash run.sh 9090` 등 다른 포트 사용 |

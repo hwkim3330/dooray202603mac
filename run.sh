@@ -1,26 +1,29 @@
 #!/bin/bash
-# KETI Kiosk Dashboard - Mac Local Server
+# KETI Kiosk Dashboard
 # Usage: bash run.sh [port]
 
 PORT=${1:-8080}
 DIR="$(cd "$(dirname "$0")" && pwd)"
 cd "$DIR"
 
-# video 폴더 확인
 mkdir -p video
 
-# Node.js 확인
+echo ""
+echo "  KETI Kiosk Dashboard 시작..."
+echo ""
+
+# Node 먼저 시도, 안되면 Python
 if command -v node &>/dev/null; then
-    NODE_VER=$(node -v)
-    echo "Node.js ${NODE_VER} 사용"
+    echo "  [Node.js $(node -v)]"
     PORT=$PORT node server.js
+elif command -v python3 &>/dev/null; then
+    echo "  [Python3 $(python3 --version 2>&1 | cut -d' ' -f2)]"
+    PORT=$PORT python3 server.py
+elif command -v python &>/dev/null; then
+    echo "  [Python $(python --version 2>&1 | cut -d' ' -f2)]"
+    PORT=$PORT python server.py
 else
-    echo ""
-    echo "  ❌ Node.js 가 설치되어 있지 않습니다."
-    echo ""
-    echo "  설치 방법:"
-    echo "    brew install node"
-    echo "    또는 https://nodejs.org 에서 LTS 다운로드"
-    echo ""
+    echo "  ❌ Node.js 또는 Python3 이 필요합니다"
+    echo "     brew install node  또는  brew install python3"
     exit 1
 fi
