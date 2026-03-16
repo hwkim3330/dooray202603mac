@@ -230,7 +230,8 @@
     /* =================================================
        SCHEDULER (Dooray API via corsproxy.io)
        ================================================= */
-    const MY_TOKEN = 's701wolho5si:sQYP0UfqQD-R6C626bOJtQ';
+    // ★ Worker 배포 후 URL을 여기에 입력
+    const PROXY = 'https://dooray-proxy.<계정>.workers.dev';
     const CFG = { START: 8, END: 20 };
     const KST = 'Asia/Seoul';
 
@@ -267,10 +268,7 @@
             try {
                 if(!silent) document.getElementById('schContent').innerHTML = '<div style="text-align:center; color:#555; margin-top:50px;">데이터 불러오는 중...</div>';
 
-                const proxyBase = 'https://corsproxy.io/?' + encodeURIComponent('https://api.dooray.com');
-                const headers = { 'Authorization': `dooray-api ${MY_TOKEN}` };
-
-                const cRes = await fetch(`${proxyBase}/reservation/v1/resource-categories?size=20`, { headers });
+                const cRes = await fetch(`${PROXY}/reservation/v1/resource-categories?size=20`);
                 const cData = await cRes.json();
 
                 const locs = (cData.result || [])
@@ -285,7 +283,7 @@
                 const now = new Date();
 
                 for (const loc of locs) {
-                    const rRes = await fetch(`${proxyBase}/reservation/v1/reservable-resources?resourceCategoryId=${loc.id}&size=100`, { headers });
+                    const rRes = await fetch(`${PROXY}/reservation/v1/reservable-resources?resourceCategoryId=${loc.id}&size=100`);
                     const rData = await rRes.json();
                     const rooms = rData.result || [];
 
@@ -294,7 +292,7 @@
                         const ids = rooms.map(x => x.id).join(',');
                         const tMin = `${this.date}T00:00:00+09:00`;
                         const tMax = `${this.date}T23:59:59+09:00`;
-                        const vRes = await fetch(`${proxyBase}/reservation/v1/resource-reservations?resourceIds=${ids}&timeMin=${tMin}&timeMax=${tMax}&size=500`, { headers });
+                        const vRes = await fetch(`${PROXY}/reservation/v1/resource-reservations?resourceIds=${ids}&timeMin=${tMin}&timeMax=${tMax}&size=500`);
                         const vData = await vRes.json();
                         resvs = vData.result || [];
                     }
