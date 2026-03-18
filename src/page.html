@@ -18,148 +18,99 @@
             --row-h: 70px;
         }
         * { margin:0; padding:0; box-sizing:border-box; outline:none; }
-        body, html { width:100%; height:100%; background:var(--bg-body); color:var(--text-main); font-family:-apple-system, BlinkMacSystemFont, "Pretendard", sans-serif; overflow:hidden; user-select:none; }
-        .container { display: flex; width: 100vw; height: 100vh; }
+        body, html { width:100%; height:100%; background:var(--bg-body); color:var(--text-main); font-family:-apple-system,BlinkMacSystemFont,"Pretendard",sans-serif; overflow:hidden; user-select:none; }
+        .container { display:flex; width:100vw; height:100vh; }
 
-        /* ===== LEFT: Video ===== */
-        .left-zone { width: var(--left-w); background: #000; border-right: 1px solid var(--line); display: flex; flex-direction: column; }
-        .video-wrapper { flex: 1; position: relative; display: flex; align-items: center; justify-content: center; background: #050505; overflow: hidden; }
-        video { width: 100%; height: 100%; object-fit: contain; }
-        .vid-msg {
-            position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
-            background: rgba(0,0,0,0.85); color: #aaa; padding: 30px 40px;
-            border-radius: 14px; font-size: 15px; pointer-events: none;
-            display: none; text-align: center; line-height: 1.8; border: 1px solid #333; z-index: 100;
-            max-width: 500px;
-        }
-        .vid-msg b { color: var(--accent); }
-        .vid-msg.err { color: #ff453a; }
+        /* ===== LEFT ===== */
+        .left-zone { width:var(--left-w); background:#000; border-right:1px solid var(--line); display:flex; flex-direction:column; }
+        .video-wrapper { flex:1; position:relative; display:flex; align-items:center; justify-content:center; background:#050505; overflow:hidden; }
+        .video-wrapper.dragover { outline:3px dashed var(--accent); outline-offset:-3px; }
+        video { width:100%; height:100%; object-fit:contain; }
+        .vid-msg { position:absolute; top:50%; left:50%; transform:translate(-50%,-50%); background:rgba(0,0,0,0.85); color:#aaa; padding:30px 40px; border-radius:14px; font-size:15px; pointer-events:none; display:none; text-align:center; line-height:1.8; border:1px solid #333; z-index:100; max-width:500px; }
+        .vid-msg b { color:var(--accent); }
+        .vid-msg.err { color:#ff453a; }
 
         /* ===== Playlist Bar ===== */
-        .pl-bar { height: 120px; display: flex; background: #0a0a0c; border-top: 1px solid #222; }
-        .playlist-zone {
-            flex: 1; display: flex; align-items: center; padding: 0 16px; overflow-x: auto; gap: 10px;
-            scrollbar-width: none;
-        }
-        .playlist-zone::-webkit-scrollbar { display: none; }
-        .pl-item {
-            flex-shrink: 0; width: 190px; height: 82px;
-            background: #18181a; border: 1px solid #333; border-radius: 8px;
-            display: flex; flex-direction: column; justify-content: center; padding: 10px 12px;
-            cursor: pointer; transition: all 0.2s ease; position: relative;
-        }
-        .pl-item:hover { background: #222; border-color: #555; }
-        .pl-item.active { border-color: var(--accent); background: rgba(10,132,255,0.08); box-shadow: 0 0 10px rgba(10,132,255,0.2); }
-        .pl-item.active::before { content: '▶'; font-size: 11px; color: var(--accent); font-weight: 700; margin-bottom: 4px; display: block; }
-        .pl-item.error { opacity: 0.4; border-color: #ff453a; }
-        .pl-item-title { font-size: 13px; color: #ccc; overflow: hidden; text-overflow: ellipsis; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; line-height: 1.4; }
-        .pl-empty { display: flex; align-items: center; justify-content: center; flex: 1; color: #555; font-size: 14px; gap: 8px; }
-        .pl-gear {
-            width: 56px; display: flex; align-items: center; justify-content: center;
-            font-size: 22px; color: #555; background: transparent; border: none; border-left: 1px solid #222;
-            cursor: pointer; transition: color 0.2s;
-        }
-        .pl-gear:hover { color: #fff; background: #1a1a1c; }
+        .pl-bar { height:120px; display:flex; background:#0a0a0c; border-top:1px solid #222; }
+        .playlist-zone { flex:1; display:flex; align-items:center; padding:0 16px; overflow-x:auto; gap:10px; scrollbar-width:none; }
+        .playlist-zone::-webkit-scrollbar { display:none; }
+        .pl-item { flex-shrink:0; width:190px; height:82px; background:#18181a; border:1px solid #333; border-radius:8px; display:flex; flex-direction:column; justify-content:center; padding:10px 12px; cursor:pointer; transition:all 0.2s; position:relative; }
+        .pl-item:hover { background:#222; border-color:#555; }
+        .pl-item.active { border-color:var(--accent); background:rgba(10,132,255,0.08); box-shadow:0 0 10px rgba(10,132,255,0.2); }
+        .pl-item.active::before { content:'▶'; font-size:11px; color:var(--accent); font-weight:700; margin-bottom:4px; display:block; }
+        .pl-item.error { opacity:0.4; border-color:#ff453a; }
+        .pl-item-title { font-size:13px; color:#ccc; overflow:hidden; text-overflow:ellipsis; display:-webkit-box; -webkit-line-clamp:2; -webkit-box-orient:vertical; line-height:1.4; }
+        .pl-item-size { font-size:11px; color:#555; margin-top:3px; }
+        .pl-empty { display:flex; align-items:center; justify-content:center; flex:1; color:#555; font-size:14px; }
+        .pl-gear { width:56px; display:flex; align-items:center; justify-content:center; font-size:22px; color:#555; background:transparent; border:none; border-left:1px solid #222; cursor:pointer; transition:color 0.2s; }
+        .pl-gear:hover { color:#fff; background:#1a1a1c; }
 
-        /* ===== Settings Overlay ===== */
-        .s-overlay {
-            position: fixed; inset: 0; background: rgba(0,0,0,0.85);
-            display: none; align-items: center; justify-content: center; z-index: 10000;
-        }
-        .s-overlay.open { display: flex; }
-        .s-box {
-            width: 640px; max-height: 85vh; background: #1c1c1e; border: 1px solid #444;
-            border-radius: 16px; display: flex; flex-direction: column; overflow: hidden;
-        }
-        .s-head {
-            padding: 18px 20px; border-bottom: 1px solid #333; display: flex;
-            justify-content: space-between; align-items: center; font-size: 18px; font-weight: 700;
-        }
-        .s-head button { background: none; border: none; color: #888; font-size: 20px; cursor: pointer; padding: 4px 8px; }
-        .s-head button:hover { color: #fff; }
-        .s-body { flex: 1; overflow-y: auto; padding: 20px; }
-        .s-add { display: flex; gap: 8px; margin-bottom: 20px; }
-        .s-add input {
-            flex: 1; padding: 10px 12px; background: #111; border: 1px solid #444; border-radius: 8px;
-            color: #fff; font-size: 14px;
-        }
-        .s-add input::placeholder { color: #555; }
-        .s-add input:focus { border-color: var(--accent); }
-        .s-add .name-input { flex: 0 0 160px; }
-        .s-add button {
-            padding: 10px 20px; background: var(--accent); border: none; border-radius: 8px;
-            color: #fff; font-weight: 700; cursor: pointer; white-space: nowrap;
-        }
-        .s-add button:hover { filter: brightness(1.1); }
-        .s-item {
-            display: flex; align-items: center; gap: 10px; padding: 12px; background: #222;
-            border-radius: 8px; margin-bottom: 8px;
-        }
-        .s-num { width: 28px; text-align: center; font-size: 13px; color: #666; font-weight: 700; flex-shrink: 0; }
-        .s-info { flex: 1; min-width: 0; }
-        .s-name { font-size: 14px; font-weight: 600; color: #ddd; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-        .s-url { font-size: 11px; color: #555; margin-top: 2px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-        .s-btns { display: flex; gap: 4px; flex-shrink: 0; }
-        .s-btns button {
-            width: 30px; height: 30px; border: 1px solid #444; background: #333; color: #aaa;
-            border-radius: 6px; cursor: pointer; display: flex; align-items: center; justify-content: center;
-            font-size: 14px;
-        }
-        .s-btns button:hover { background: #444; color: #fff; }
-        .s-btns button:disabled { opacity: 0.3; cursor: default; }
-        .s-btns .del { color: #ff453a; border-color: #552222; }
-        .s-btns .del:hover { background: #441111; }
-        .s-empty { text-align: center; color: #555; padding: 50px 0; line-height: 2; font-size: 14px; }
-        .s-foot { padding: 14px 20px; border-top: 1px solid #333; text-align: right; }
-        .s-foot button {
-            padding: 10px 28px; background: var(--accent); border: none; border-radius: 8px;
-            color: #fff; font-weight: 700; cursor: pointer;
-        }
+        /* ===== Settings ===== */
+        .s-overlay { position:fixed; inset:0; background:rgba(0,0,0,0.85); display:none; align-items:center; justify-content:center; z-index:10000; }
+        .s-overlay.open { display:flex; }
+        .s-box { width:640px; max-height:85vh; background:#1c1c1e; border:1px solid #444; border-radius:16px; display:flex; flex-direction:column; overflow:hidden; }
+        .s-head { padding:18px 20px; border-bottom:1px solid #333; display:flex; justify-content:space-between; align-items:center; font-size:18px; font-weight:700; }
+        .s-head button { background:none; border:none; color:#888; font-size:20px; cursor:pointer; padding:4px 8px; }
+        .s-head button:hover { color:#fff; }
+        .s-body { flex:1; overflow-y:auto; padding:20px; }
+        .s-add { display:flex; gap:10px; margin-bottom:20px; align-items:center; }
+        .s-file-btn { padding:12px 24px; background:var(--accent); border:none; border-radius:8px; color:#fff; font-weight:700; cursor:pointer; white-space:nowrap; font-size:14px; }
+        .s-file-btn:hover { filter:brightness(1.1); }
+        .s-status { font-size:13px; color:#666; }
+        .s-total { font-size:12px; color:#555; margin-bottom:16px; padding-bottom:12px; border-bottom:1px solid #222; }
+        .s-item { display:flex; align-items:center; gap:10px; padding:12px; background:#222; border-radius:8px; margin-bottom:8px; }
+        .s-num { width:28px; text-align:center; font-size:13px; color:#666; font-weight:700; flex-shrink:0; }
+        .s-info { flex:1; min-width:0; }
+        .s-name { font-size:14px; font-weight:600; color:#ddd; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+        .s-size { font-size:11px; color:#555; margin-top:2px; }
+        .s-btns { display:flex; gap:4px; flex-shrink:0; }
+        .s-btns button { width:30px; height:30px; border:1px solid #444; background:#333; color:#aaa; border-radius:6px; cursor:pointer; display:flex; align-items:center; justify-content:center; font-size:14px; }
+        .s-btns button:hover { background:#444; color:#fff; }
+        .s-btns button:disabled { opacity:0.3; cursor:default; }
+        .s-btns .del { color:#ff453a; border-color:#552222; }
+        .s-btns .del:hover { background:#441111; }
+        .s-empty { text-align:center; color:#555; padding:50px 0; line-height:2; font-size:14px; }
+        .s-foot { padding:14px 20px; border-top:1px solid #333; text-align:right; }
+        .s-foot button { padding:10px 28px; background:var(--accent); border:none; border-radius:8px; color:#fff; font-weight:700; cursor:pointer; }
 
-        /* ===== RIGHT: Scheduler ===== */
-        .right-zone { width: var(--right-w); display: flex; flex-direction: column; background: var(--bg-panel); border-left: 1px solid #000; }
-        .r-head { height: 90px; padding: 0 20px; background: #1c1c1e; border-bottom: 1px solid var(--line); display: flex; justify-content: space-between; align-items: center; }
-        .r-info { display: flex; flex-direction: column; gap: 4px; }
-        .r-tit { font-size: 20px; font-weight: 800; }
-        .r-date { font-size: 13px; color: var(--text-dim); }
-        .r-stat-box { text-align: right; }
-        .clock { font-size: 24px; font-weight: 300; font-variant-numeric: tabular-nums; }
-        .stats { font-size: 12px; color: var(--text-dim); margin-top: 4px; }
-        .stats b { color: var(--accent); margin-left: 3px; margin-right: 8px; }
-        .r-body { flex: 1; overflow-y: auto; padding: 15px; }
-        .loc-grp { background: #18181a; border: 1px solid var(--line); border-radius: 8px; margin-bottom: 20px; overflow: hidden; }
-        .loc-h { padding: 10px 12px; background: rgba(255,255,255,0.04); border-bottom: 1px solid var(--line); font-weight: 700; font-size: 15px; color: #ddd; display: flex; justify-content: space-between; }
-        .tl-hd { display: flex; height: 30px; background: #222; border-bottom: 1px solid var(--line); }
-        .tl-nm-col { width: var(--name-w); border-right: 1px solid var(--line); flex-shrink: 0; }
-        .tl-tr-col { flex: 1; display: flex; }
-        .tm-lbl { flex: 1; display: flex; align-items: center; justify-content: center; font-size: 10px; color: #666; border-right: 1px solid rgba(255,255,255,0.05); }
-        .tl-row { display: flex; height: var(--row-h); border-bottom: 1px solid rgba(255,255,255,0.05); }
-        .tl-nm { width: var(--name-w); border-right: 1px solid var(--line); flex-shrink: 0; display: flex; align-items: center; justify-content: center; font-size: 12px; color: #ccc; font-weight: 600; background: #1a1a1c; text-align: center; padding: 0 2px; word-break: keep-all; z-index: 5; }
-        .tl-tr { flex: 1; position: relative; background: #121212; }
-        .g-lines { position: absolute; inset: 0; display: flex; pointer-events: none; }
-        .g-cell { flex: 1; border-right: 1px solid rgba(255,255,255,0.03); }
-        .now-bar { position: absolute; top: 0; bottom: 0; width: 1px; background: #ff453a; z-index: 20; display: none; }
-        .bk-bar {
-            position: absolute; top: 10px; bottom: 10px; background: var(--accent); border-radius: 4px;
-            font-size: 11px; color: white; font-weight: 600; display: flex; flex-direction: column;
-            justify-content: center; padding: 0 6px; overflow: hidden; white-space: nowrap;
-            cursor: pointer; z-index: 10; box-shadow: 1px 2px 4px rgba(0,0,0,0.4); border: 1px solid rgba(255,255,255,0.1);
-        }
+        /* ===== RIGHT ===== */
+        .right-zone { width:var(--right-w); display:flex; flex-direction:column; background:var(--bg-panel); border-left:1px solid #000; }
+        .r-head { height:90px; padding:0 20px; background:#1c1c1e; border-bottom:1px solid var(--line); display:flex; justify-content:space-between; align-items:center; }
+        .r-info { display:flex; flex-direction:column; gap:4px; }
+        .r-tit { font-size:20px; font-weight:800; }
+        .r-date { font-size:13px; color:var(--text-dim); }
+        .r-stat-box { text-align:right; }
+        .clock { font-size:24px; font-weight:300; font-variant-numeric:tabular-nums; }
+        .stats { font-size:12px; color:var(--text-dim); margin-top:4px; }
+        .stats b { color:var(--accent); margin-left:3px; margin-right:8px; }
+        .r-body { flex:1; overflow-y:auto; padding:15px; }
+        .loc-grp { background:#18181a; border:1px solid var(--line); border-radius:8px; margin-bottom:20px; overflow:hidden; }
+        .loc-h { padding:10px 12px; background:rgba(255,255,255,0.04); border-bottom:1px solid var(--line); font-weight:700; font-size:15px; color:#ddd; display:flex; justify-content:space-between; }
+        .tl-hd { display:flex; height:30px; background:#222; border-bottom:1px solid var(--line); }
+        .tl-nm-col { width:var(--name-w); border-right:1px solid var(--line); flex-shrink:0; }
+        .tl-tr-col { flex:1; display:flex; }
+        .tm-lbl { flex:1; display:flex; align-items:center; justify-content:center; font-size:10px; color:#666; border-right:1px solid rgba(255,255,255,0.05); }
+        .tl-row { display:flex; height:var(--row-h); border-bottom:1px solid rgba(255,255,255,0.05); }
+        .tl-nm { width:var(--name-w); border-right:1px solid var(--line); flex-shrink:0; display:flex; align-items:center; justify-content:center; font-size:12px; color:#ccc; font-weight:600; background:#1a1a1c; text-align:center; padding:0 2px; word-break:keep-all; z-index:5; }
+        .tl-tr { flex:1; position:relative; background:#121212; }
+        .g-lines { position:absolute; inset:0; display:flex; pointer-events:none; }
+        .g-cell { flex:1; border-right:1px solid rgba(255,255,255,0.03); }
+        .now-bar { position:absolute; top:0; bottom:0; width:1px; background:#ff453a; z-index:20; display:none; }
+        .bk-bar { position:absolute; top:10px; bottom:10px; background:var(--accent); border-radius:4px; font-size:11px; color:white; font-weight:600; display:flex; flex-direction:column; justify-content:center; padding:0 6px; overflow:hidden; white-space:nowrap; cursor:pointer; z-index:10; box-shadow:1px 2px 4px rgba(0,0,0,0.4); border:1px solid rgba(255,255,255,0.1); }
 
-        /* ===== Booking Modal ===== */
-        #modal { position: fixed; inset: 0; background: rgba(0,0,0,0.8); display: none; align-items: center; justify-content: center; z-index: 9999; }
-        .m-box { width: 340px; background: #222; padding: 25px; border-radius: 12px; border: 1px solid #444; }
-        .m-r { display: flex; margin-bottom: 12px; font-size: 14px; color: #ddd; }
-        .m-l { width: 60px; color: #777; }
-        .m-btn { width: 100%; padding: 10px; margin-top: 10px; background: var(--accent); border: none; color: white; border-radius: 6px; font-weight: 700; cursor: pointer; }
+        /* ===== Modals ===== */
+        #modal { position:fixed; inset:0; background:rgba(0,0,0,0.8); display:none; align-items:center; justify-content:center; z-index:9999; }
+        .m-box { width:340px; background:#222; padding:25px; border-radius:12px; border:1px solid #444; }
+        .m-r { display:flex; margin-bottom:12px; font-size:14px; color:#ddd; }
+        .m-l { width:60px; color:#777; }
+        .m-btn { width:100%; padding:10px; margin-top:10px; background:var(--accent); border:none; color:white; border-radius:6px; font-weight:700; cursor:pointer; }
     </style>
 </head>
 <body>
 
 <div class="container">
-    <!-- LEFT -->
     <div class="left-zone">
-        <div class="video-wrapper">
+        <div class="video-wrapper" id="videoWrap">
             <video id="player" playsinline autoplay muted></video>
             <div id="vidMsg" class="vid-msg"></div>
         </div>
@@ -169,7 +120,6 @@
         </div>
     </div>
 
-    <!-- RIGHT -->
     <div class="right-zone">
         <div class="r-head">
             <div class="r-info">
@@ -201,10 +151,11 @@
         </div>
         <div class="s-body">
             <div class="s-add">
-                <input id="addUrl" placeholder="영상 URL (.mp4, .webm, .mov)" />
-                <input id="addName" class="name-input" placeholder="표시 이름 (선택)" />
-                <button id="addBtn">추가</button>
+                <input type="file" id="fileInput" multiple accept="video/*" style="display:none" />
+                <button class="s-file-btn" id="fileBtn">📁 파일 선택</button>
+                <span class="s-status" id="addStatus"></span>
             </div>
+            <div id="sTotalInfo" class="s-total"></div>
             <div id="settingsList"></div>
         </div>
         <div class="s-foot">
@@ -227,50 +178,79 @@
 
 <script>
     /* =========================================================
-       1. PLAYLIST — localStorage CRUD
+       1. IndexedDB — 비디오 Blob 저장소
        ========================================================= */
-    const PL_KEY = 'keti_playlist';
+    const DB_NAME = 'keti_videos';
+    const DB_VER = 1;
+    const STORE = 'blobs';
+    let _db = null;
 
-    const PL = {
-        get() {
-            try { return JSON.parse(localStorage.getItem(PL_KEY)) || []; }
-            catch { return []; }
-        },
-        save(items) {
-            try { localStorage.setItem(PL_KEY, JSON.stringify(items)); } catch {}
-        },
-        add(url, name) {
-            const items = this.get();
-            if (!name) {
-                try {
-                    const p = new URL(url).pathname.split('/');
-                    name = decodeURIComponent(p[p.length - 1])
-                        .replace(/\.(mp4|webm|mov|avi|mkv)$/i, '')
-                        .replace(/[_-]/g, ' ');
-                } catch { name = 'Video ' + (items.length + 1); }
-            }
-            items.push({ url, name });
-            this.save(items);
-            return items;
-        },
-        remove(i) {
-            const items = this.get();
-            items.splice(i, 1);
-            this.save(items);
-            return items;
-        },
-        move(i, dir) {
-            const items = this.get();
-            const t = i + dir;
-            if (t < 0 || t >= items.length) return items;
-            [items[i], items[t]] = [items[t], items[i]];
-            this.save(items);
-            return items;
-        }
-    };
+    function dbOpen() {
+        if (_db) return Promise.resolve(_db);
+        return new Promise((resolve, reject) => {
+            const req = indexedDB.open(DB_NAME, DB_VER);
+            req.onupgradeneeded = () => req.result.createObjectStore(STORE, { autoIncrement: true });
+            req.onsuccess = () => { _db = req.result; resolve(_db); };
+            req.onerror = () => reject(req.error);
+        });
+    }
+
+    async function dbStore(blob) {
+        const db = await dbOpen();
+        return new Promise((resolve, reject) => {
+            const tx = db.transaction(STORE, 'readwrite');
+            const req = tx.objectStore(STORE).add(blob);
+            req.onsuccess = () => resolve(req.result);
+            req.onerror = () => reject(req.error);
+        });
+    }
+
+    async function dbLoad(id) {
+        const db = await dbOpen();
+        return new Promise((resolve, reject) => {
+            const tx = db.transaction(STORE, 'readonly');
+            const req = tx.objectStore(STORE).get(id);
+            req.onsuccess = () => resolve(req.result);
+            req.onerror = () => reject(req.error);
+        });
+    }
+
+    async function dbRemove(id) {
+        const db = await dbOpen();
+        return new Promise((resolve, reject) => {
+            const tx = db.transaction(STORE, 'readwrite');
+            const req = tx.objectStore(STORE).delete(id);
+            req.onsuccess = () => resolve();
+            req.onerror = () => reject(req.error);
+        });
+    }
 
     /* =========================================================
-       2. VIDEO PLAYER
+       2. Playlist Metadata (localStorage)
+       ========================================================= */
+    const META_KEY = 'keti_meta';
+    const ORD_KEY = 'keti_order';
+
+    function getMeta() { try { return JSON.parse(localStorage.getItem(META_KEY)) || {}; } catch { return {}; } }
+    function saveMeta(m) { localStorage.setItem(META_KEY, JSON.stringify(m)); }
+    function getOrder() { try { return JSON.parse(localStorage.getItem(ORD_KEY)) || []; } catch { return []; } }
+    function saveOrder(o) { localStorage.setItem(ORD_KEY, JSON.stringify(o)); }
+
+    function getPlaylist() {
+        const order = getOrder(), meta = getMeta();
+        return order.map(id => ({ id, ...(meta[id] || {}) })).filter(x => x.name);
+    }
+
+    function fmtSize(b) {
+        if (b < 1048576) return (b / 1024).toFixed(0) + ' KB';
+        if (b < 1073741824) return (b / 1048576).toFixed(1) + ' MB';
+        return (b / 1073741824).toFixed(1) + ' GB';
+    }
+
+    function esc(s) { const d = document.createElement('div'); d.textContent = s; return d.innerHTML; }
+
+    /* =========================================================
+       3. VIDEO PLAYER
        ========================================================= */
     const player = document.getElementById('player');
     const vidMsg = document.getElementById('vidMsg');
@@ -278,50 +258,56 @@
 
     let playlist = [];
     let curIdx = 0;
-    let plSnapshot = '';  // 설정 변경 감지용
+    let blobUrl = null;
+    let ordSnap = '';
 
-    function initPlayer() {
-        playlist = PL.get();
-        plSnapshot = JSON.stringify(playlist);
+    async function initPlayer() {
+        try { await dbOpen(); } catch { /* IndexedDB 없으면 빈 상태 */ }
+        playlist = getPlaylist();
+        ordSnap = JSON.stringify(getOrder());
         renderBar();
-        if (playlist.length > 0) {
+        if (playlist.length) {
             vidMsg.style.display = 'none';
-            setTimeout(() => playAt(0), 200);
+            await playAt(0);
         } else {
-            showMsg('⚙ 버튼을 눌러 영상 URL을 추가하세요', false);
+            showMsg('<b>⚙</b> 버튼을 눌러 영상 파일을 추가하세요');
         }
     }
 
-    function playAt(idx) {
-        if (!playlist.length) return showMsg('⚙ 버튼을 눌러 영상 URL을 추가하세요', false);
+    async function playAt(idx) {
+        if (!playlist.length) return showMsg('<b>⚙</b> 버튼을 눌러 영상 파일을 추가하세요');
         if (idx >= playlist.length) idx = 0;
         curIdx = idx;
         vidMsg.style.display = 'none';
-        player.src = playlist[idx].url;
-        player.muted = true;
-        const p = player.play();
-        if (p) p.then(() => { vidMsg.style.display = 'none'; }).catch(e => {
+
+        if (blobUrl) { URL.revokeObjectURL(blobUrl); blobUrl = null; }
+
+        try {
+            const blob = await dbLoad(playlist[idx].id);
+            if (!blob) throw new Error('no blob');
+            blobUrl = URL.createObjectURL(blob);
+            player.src = blobUrl;
+            player.muted = true;
+            await player.play();
+        } catch (e) {
             if (e.name === 'AbortError') return;
             markErr(idx);
-            showMsg(playlist[idx].name + ' 재생 실패, 다음으로 넘어갑니다', true);
-            setTimeout(() => { vidMsg.style.display = 'none'; playAt(idx + 1); }, 2500);
-        });
+            showMsg(esc(playlist[idx].name) + ' 재생 실패', true);
+            setTimeout(() => { vidMsg.style.display = 'none'; playAt(idx + 1); }, 2000);
+        }
         updateBar();
     }
 
     player.onended = () => playAt(curIdx + 1);
-    player.onerror = () => {
-        markErr(curIdx);
-        setTimeout(() => playAt(curIdx + 1), 2000);
-    };
+    player.onerror = () => { markErr(curIdx); setTimeout(() => playAt(curIdx + 1), 2000); };
 
-    function showMsg(text, isErr) {
+    function showMsg(html, isErr) {
         vidMsg.className = 'vid-msg' + (isErr ? ' err' : '');
-        vidMsg.innerHTML = text;
+        vidMsg.innerHTML = html;
         vidMsg.style.display = 'block';
     }
 
-    /* ===== Playlist Bar (하단) ===== */
+    /* ===== Playlist Bar ===== */
     function renderBar() {
         if (!playlist.length) {
             plBar.innerHTML = '<div class="pl-empty">재생 목록이 비어있습니다</div>';
@@ -332,7 +318,8 @@
             const d = document.createElement('div');
             d.className = 'pl-item' + (i === curIdx ? ' active' : '');
             d.id = 'pl-' + i;
-            d.innerHTML = '<div class="pl-item-title">' + esc(it.name) + '</div>';
+            d.innerHTML = '<div class="pl-item-title">' + esc(it.name) + '</div>'
+                + '<div class="pl-item-size">' + fmtSize(it.size || 0) + '</div>';
             d.onclick = () => { if (curIdx !== i) playAt(i); };
             plBar.appendChild(d);
         });
@@ -341,10 +328,7 @@
     function updateBar() {
         document.querySelectorAll('.pl-item').forEach(el => el.classList.remove('active'));
         const a = document.getElementById('pl-' + curIdx);
-        if (a) {
-            a.classList.add('active');
-            a.scrollIntoView({ behavior: 'smooth', inline: 'center', block: 'nearest' });
-        }
+        if (a) { a.classList.add('active'); a.scrollIntoView({ behavior: 'smooth', inline: 'center', block: 'nearest' }); }
     }
 
     function markErr(idx) {
@@ -353,85 +337,132 @@
     }
 
     /* =========================================================
-       3. SETTINGS UI
+       4. SETTINGS UI
        ========================================================= */
     const overlay = document.getElementById('settingsOverlay');
+    const fileInput = document.getElementById('fileInput');
 
     function openSettings() {
-        plSnapshot = JSON.stringify(PL.get());
+        ordSnap = JSON.stringify(getOrder());
         overlay.classList.add('open');
         renderList();
-        document.getElementById('addUrl').focus();
     }
 
     function closeSettings() {
         overlay.classList.remove('open');
-        const newPl = PL.get();
-        playlist = newPl;
+        const changed = JSON.stringify(getOrder()) !== ordSnap;
+        playlist = getPlaylist();
         renderBar();
-        // 변경됐으면 처음부터 재생
-        if (JSON.stringify(newPl) !== plSnapshot) {
-            if (newPl.length > 0) playAt(0);
-            else {
-                player.src = '';
-                showMsg('⚙ 버튼을 눌러 영상 URL을 추가하세요', false);
-            }
+        if (changed) {
+            if (playlist.length) playAt(0);
+            else { player.src = ''; showMsg('<b>⚙</b> 버튼을 눌러 영상 파일을 추가하세요'); }
         }
     }
 
     function renderList() {
-        const items = PL.get();
+        const items = getPlaylist();
         const el = document.getElementById('settingsList');
+        const info = document.getElementById('sTotalInfo');
+
         if (!items.length) {
-            el.innerHTML = '<div class="s-empty">재생 목록이 비어있습니다.<br>위에서 영상 URL을 추가하세요.</div>';
+            info.style.display = 'none';
+            el.innerHTML = '<div class="s-empty">재생 목록이 비어있습니다.<br>위에서 파일을 선택하세요.</div>';
             return;
         }
+
+        const totalSize = items.reduce((s, it) => s + (it.size || 0), 0);
+        info.style.display = 'block';
+        info.textContent = '총 ' + items.length + '개 · ' + fmtSize(totalSize);
+
         el.innerHTML = items.map((it, i) =>
-            '<div class="s-item">' +
-            '<div class="s-num">' + (i + 1) + '</div>' +
-            '<div class="s-info"><div class="s-name">' + esc(it.name) + '</div><div class="s-url">' + esc(it.url) + '</div></div>' +
-            '<div class="s-btns">' +
-            '<button onclick="mvItem(' + i + ',-1)"' + (i === 0 ? ' disabled' : '') + '>↑</button>' +
-            '<button onclick="mvItem(' + i + ',1)"' + (i === items.length - 1 ? ' disabled' : '') + '>↓</button>' +
-            '<button class="del" onclick="rmItem(' + i + ')">✕</button>' +
-            '</div></div>'
+            '<div class="s-item">'
+            + '<div class="s-num">' + (i + 1) + '</div>'
+            + '<div class="s-info"><div class="s-name">' + esc(it.name) + '</div><div class="s-size">' + fmtSize(it.size || 0) + '</div></div>'
+            + '<div class="s-btns">'
+            + '<button onclick="mvItem(' + it.id + ',-1)"' + (i === 0 ? ' disabled' : '') + '>↑</button>'
+            + '<button onclick="mvItem(' + it.id + ',1)"' + (i === items.length - 1 ? ' disabled' : '') + '>↓</button>'
+            + '<button class="del" onclick="rmItem(' + it.id + ')">✕</button>'
+            + '</div></div>'
         ).join('');
     }
 
-    function addItem() {
-        const u = document.getElementById('addUrl');
-        const n = document.getElementById('addName');
-        const url = u.value.trim();
-        if (!url) { u.focus(); return; }
-        PL.add(url, n.value.trim());
-        u.value = ''; n.value = '';
+    // 파일 추가
+    async function addFiles(files) {
+        const status = document.getElementById('addStatus');
+        const order = getOrder();
+        const meta = getMeta();
+        let count = 0;
+
+        for (const f of files) {
+            status.textContent = (++count) + '/' + files.length + ' 추가 중...';
+            try {
+                const id = await dbStore(f);
+                order.push(id);
+                meta[id] = {
+                    name: f.name.replace(/\.[^.]+$/, '').replace(/[_-]/g, ' '),
+                    size: f.size
+                };
+            } catch (e) {
+                console.error('store failed:', f.name, e);
+            }
+        }
+
+        saveOrder(order);
+        saveMeta(meta);
         renderList();
-        u.focus();
+        status.textContent = count + '개 추가 완료';
+        setTimeout(() => { status.textContent = ''; }, 2000);
     }
 
-    function rmItem(i) { PL.remove(i); renderList(); }
-    function mvItem(i, dir) { PL.move(i, dir); renderList(); }
+    // 삭제
+    async function rmItem(id) {
+        await dbRemove(id);
+        saveOrder(getOrder().filter(x => x !== id));
+        const m = getMeta(); delete m[id]; saveMeta(m);
+        renderList();
+    }
 
-    // 이벤트 바인딩
+    // 순서 변경
+    function mvItem(id, dir) {
+        const order = getOrder();
+        const i = order.indexOf(id);
+        const t = i + dir;
+        if (t < 0 || t >= order.length) return;
+        [order[i], order[t]] = [order[t], order[i]];
+        saveOrder(order);
+        renderList();
+    }
+
+    // 이벤트
     document.getElementById('gearBtn').onclick = openSettings;
     document.getElementById('settingsClose').onclick = closeSettings;
     document.getElementById('settingsDone').onclick = closeSettings;
-    document.getElementById('addBtn').onclick = addItem;
+    document.getElementById('fileBtn').onclick = () => fileInput.click();
+    fileInput.onchange = async (e) => {
+        if (e.target.files.length) await addFiles(e.target.files);
+        e.target.value = '';
+    };
     overlay.onclick = (e) => { if (e.target === overlay) closeSettings(); };
+    document.onkeydown = (e) => { if (e.key === 'Escape' && overlay.classList.contains('open')) closeSettings(); };
 
-    // Enter키로 추가
-    document.getElementById('addUrl').onkeydown = (e) => { if (e.key === 'Enter') addItem(); };
-    document.getElementById('addName').onkeydown = (e) => { if (e.key === 'Enter') addItem(); };
-
-    // Escape로 닫기
-    document.onkeydown = (e) => {
-        if (e.key === 'Escape' && overlay.classList.contains('open')) closeSettings();
+    // 드래그 앤 드롭 (비디오 영역)
+    const vw = document.getElementById('videoWrap');
+    vw.ondragover = (e) => { e.preventDefault(); vw.classList.add('dragover'); };
+    vw.ondragleave = () => vw.classList.remove('dragover');
+    vw.ondrop = async (e) => {
+        e.preventDefault();
+        vw.classList.remove('dragover');
+        const files = [...e.dataTransfer.files].filter(f => f.type.startsWith('video/'));
+        if (!files.length) return;
+        const wasEmpty = !getOrder().length;
+        await addFiles(files);
+        playlist = getPlaylist();
+        renderBar();
+        if (wasEmpty && playlist.length) playAt(0);
     };
 
-    function esc(s) { const d = document.createElement('div'); d.textContent = s; return d.innerHTML; }
-
     /* =========================================================
-       4. SCHEDULER (Dooray API via /api/ proxy)
+       5. SCHEDULER
        ========================================================= */
     const CFG = { START: 8, END: 20 };
     const KST = 'Asia/Seoul';
@@ -446,71 +477,44 @@
             setInterval(() => this.updateLine(), 60000);
             setInterval(() => this.checkDate(), 60000);
         }
-
         ymd(d) { return new Intl.DateTimeFormat('sv-SE', { timeZone: KST }).format(d); }
-
-        checkDate() {
-            const cur = this.ymd(new Date());
-            if (cur !== this.todayStr) location.reload();
-        }
-
+        checkDate() { if (this.ymd(new Date()) !== this.todayStr) location.reload(); }
         init() {
             const d = new Date(this.date);
-            document.getElementById('dateStr').textContent =
-                this.date + ' (' + d.toLocaleDateString('ko-KR', { weekday: 'short' }) + ')';
+            document.getElementById('dateStr').textContent = this.date + ' (' + d.toLocaleDateString('ko-KR', { weekday: 'short' }) + ')';
             this.tick();
             this.refresh();
         }
-
-        tick() {
-            document.getElementById('clock').textContent =
-                new Date().toLocaleTimeString('ko-KR', { hour12: false });
-        }
+        tick() { document.getElementById('clock').textContent = new Date().toLocaleTimeString('ko-KR', { hour12: false }); }
 
         async refresh(silent) {
             try {
-                if (!silent)
-                    document.getElementById('schContent').innerHTML =
-                        '<div style="text-align:center;color:#555;margin-top:50px">데이터 불러오는 중...</div>';
-
+                if (!silent) document.getElementById('schContent').innerHTML = '<div style="text-align:center;color:#555;margin-top:50px">데이터 불러오는 중...</div>';
                 const cRes = await fetch('/api/reservation/v1/resource-categories?size=20');
                 const cData = await cRes.json();
-
-                const locs = (cData.result || [])
-                    .filter(l => l.name && (l.name.includes('글로벌R&D') || l.name.includes('GBC')))
-                    .sort((a, b) => a.name.includes('글로벌') ? -1 : 1);
-
+                const locs = (cData.result || []).filter(l => l.name && (l.name.includes('글로벌R&D') || l.name.includes('GBC'))).sort((a, b) => a.name.includes('글로벌') ? -1 : 1);
                 const box = document.getElementById('schContent');
                 box.innerHTML = '';
                 let gC = 0, bC = 0;
                 const isToday = this.date === this.ymd(new Date());
                 const now = new Date();
-
                 for (const loc of locs) {
                     const rRes = await fetch('/api/reservation/v1/reservable-resources?resourceCategoryId=' + loc.id + '&size=100');
-                    const rData = await rRes.json();
-                    const rooms = rData.result || [];
-
+                    const rooms = (await rRes.json()).result || [];
                     let resvs = [];
                     if (rooms.length) {
                         const ids = rooms.map(x => x.id).join(',');
-                        const tMin = this.date + 'T00:00:00+09:00';
-                        const tMax = this.date + 'T23:59:59+09:00';
-                        const vRes = await fetch('/api/reservation/v1/resource-reservations?resourceIds=' + ids + '&timeMin=' + tMin + '&timeMax=' + tMax + '&size=500');
-                        const vData = await vRes.json();
-                        resvs = vData.result || [];
+                        const vRes = await fetch('/api/reservation/v1/resource-reservations?resourceIds=' + ids + '&timeMin=' + this.date + 'T00:00:00+09:00&timeMax=' + this.date + 'T23:59:59+09:00&size=500');
+                        resvs = (await vRes.json()).result || [];
                     }
-
                     const isG = loc.name.includes('글로벌');
                     rooms.forEach(r => {
                         if (!isToday) { isG ? gC++ : bC++; return; }
                         const busy = resvs.some(v => v.resource.id === r.id && now >= new Date(v.startedAt) && now <= new Date(v.endedAt));
                         if (!busy) isG ? gC++ : bC++;
                     });
-
                     this.renderLoc(box, loc, rooms, resvs, isToday);
                 }
-
                 document.getElementById('sG').textContent = gC;
                 document.getElementById('sB').textContent = bC;
                 document.getElementById('errMsg').style.display = 'none';
@@ -524,26 +528,19 @@
             const grp = document.createElement('div');
             grp.className = 'loc-grp';
             const name = loc.name.includes('글로벌') ? 'Global R&D Center' : 'GBC Center';
-
             let h = '<div class="loc-h"><span>' + name + '</span><span style="cursor:pointer" onclick="sch.refresh(true)">↻</span></div>';
             h += '<div class="tl-hd"><div class="tl-nm-col"></div><div class="tl-tr-col">';
             for (let i = CFG.START; i < CFG.END; i++) h += '<div class="tm-lbl">' + i + '</div>';
             h += '</div></div><div>';
-
             rooms.sort((a, b) => a.name.localeCompare(b.name)).forEach(r => {
                 let rn = r.name.replace(/\d+층/, '').replace(/회의실/, '').replace(/대회의실/, '대').replace(/소회의실/, '소').replace(/중회의실/, '중').trim();
                 h += '<div class="tl-row"><div class="tl-nm">' + rn + '</div><div class="tl-tr"><div class="g-lines">';
                 for (let i = 0; i < CFG.END - CFG.START; i++) h += '<div class="g-cell"></div>';
-                if (isToday) {
-                    const pos = this.nowPos();
-                    h += '<div class="now-bar" style="' + (pos >= 0 && pos <= 100 ? 'left:' + pos + '%;display:block' : 'display:none') + '"></div>';
-                }
+                if (isToday) { const p = this.nowPos(); h += '<div class="now-bar" style="' + (p >= 0 && p <= 100 ? 'left:' + p + '%;display:block' : 'display:none') + '"></div>'; }
                 h += '</div>';
-
                 resvs.filter(x => x.resource.id === r.id).forEach(v => {
                     const s = new Date(v.startedAt), e = new Date(v.endedAt);
-                    let off = (s.getHours() + s.getMinutes() / 60) - CFG.START;
-                    let dur = (e - s) / 3600000;
+                    let off = (s.getHours() + s.getMinutes() / 60) - CFG.START, dur = (e - s) / 3600000;
                     const tot = CFG.END - CFG.START;
                     if (off < 0) { dur += off; off = 0; }
                     if (off + dur > tot) dur = tot - off;
@@ -553,9 +550,7 @@
                         const su = (v.users && v.users.from && v.users.from.member ? v.users.from.member.name : '?').replace(/'/g, "\\'");
                         const ts = s.toLocaleTimeString('ko-KR', { hour: '2-digit', minute: '2-digit', hour12: false });
                         const te = e.toLocaleTimeString('ko-KR', { hour: '2-digit', minute: '2-digit', hour12: false });
-                        h += '<div class="bk-bar" style="left:' + l + '%;width:' + w + '%"'
-                            + " onclick=\"pop('" + st + "','" + ts + '~' + te + "','" + r.name.replace(/'/g, "\\'") + "','" + su + "')\">"
-                            + '<div>' + esc(v.subject || '') + '</div></div>';
+                        h += '<div class="bk-bar" style="left:' + l + '%;width:' + w + '%" onclick="pop(\'' + st + "','" + ts + '~' + te + "','" + r.name.replace(/'/g, "\\'") + "','" + su + "')\">" + '<div>' + esc(v.subject || '') + '</div></div>';
                     }
                 });
                 h += '</div></div>';
@@ -565,15 +560,9 @@
             parent.appendChild(grp);
         }
 
-        nowPos() {
-            const n = new Date();
-            const h = n.getHours() + n.getMinutes() / 60;
-            return ((h - CFG.START) / (CFG.END - CFG.START)) * 100;
-        }
-
+        nowPos() { const n = new Date(); return ((n.getHours() + n.getMinutes() / 60 - CFG.START) / (CFG.END - CFG.START)) * 100; }
         updateLine() {
-            const isToday = this.date === this.ymd(new Date());
-            const pos = this.nowPos();
+            const isToday = this.date === this.ymd(new Date()), pos = this.nowPos();
             document.querySelectorAll('.now-bar').forEach(l => {
                 if (isToday && pos >= 0 && pos <= 100) { l.style.display = 'block'; l.style.left = pos + '%'; }
                 else l.style.display = 'none';
@@ -588,12 +577,11 @@
         document.getElementById('mU').textContent = u;
         document.getElementById('modal').style.display = 'flex';
     }
-
     document.getElementById('modal').onclick = (e) => { if (e.target.id === 'modal') e.target.style.display = 'none'; };
     document.getElementById('modalClose').onclick = () => { document.getElementById('modal').style.display = 'none'; };
 
     /* =========================================================
-       5. BOOT
+       6. BOOT
        ========================================================= */
     initPlayer();
     const sch = new Scheduler();
